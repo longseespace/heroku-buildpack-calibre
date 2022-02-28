@@ -21,6 +21,22 @@ echo "-----> Installing Calibre"
 
 wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sh /dev/stdin install_dir="$BUILD_DIR" isolated=y
 
+# libGL dependency required for image processing
+echo "-----> Installing dependencies"
+for dep in \
+  http://mirrors.kernel.org/ubuntu/pool/main/libg/libglvnd/libgl1_1.0.0-2ubuntu2_amd64.deb \
+  http://mirrors.kernel.org/ubuntu/pool/main/libg/libglvnd/libglvnd0_1.0.0-2ubuntu2_amd64.deb \
+  http://mirrors.kernel.org/ubuntu/pool/main/libg/libglvnd/libglx0_1.0.0-2ubuntu2_amd64.deb \
+  http://mirrors.kernel.org/ubuntu/pool/main/libx/libxcomposite/libxcomposite1_0.4.4-2_amd64.deb
+do
+  echo $dep
+  curl -OLs $dep
+  ar x *.deb
+  tar xf data.tar.xz
+  rm *.deb
+done
+mv ./usr/lib/x86_64-linux-gnu/* $BUILD_DIR/calibre/lib/
+
 echo "-----> Setting up path"
 
 mkdir -p $BUILD_DIR/.profile.d
