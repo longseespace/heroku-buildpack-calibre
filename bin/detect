@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# this pack is valid for apps with a Calibre in the root
+if [ -f $1/Calibre ]; then
+  echo "Calibre"
+  exit 0
+else
+  exit 1
+fi

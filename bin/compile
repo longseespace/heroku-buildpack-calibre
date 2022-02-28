@@ -1,0 +1,25 @@
+#!/bin/sh
+
+# fail fast
+set -e
+
+# parse and derive params
+BUILD_DIR=$1
+CACHE_DIR=$2
+LP_DIR=`cd $(dirname $0); cd ..; pwd`
+BUILDPACK_DIR="$(dirname $(dirname $0))"
+VENDORED_CALIBRE="vendor/calibre"
+
+rm -rf "$BUILD_DIR/$VENDORED_CALIBRE"
+mkdir -p "$BUILD_DIR/vendor"
+
+echo "-----> Installing Calibre"
+
+wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sh /dev/stdin install_dir="$BUILD_DIR" isolated=y
+
+echo "-----> Setting up path"
+
+echo "export PATH=\$HOME/calibre:\$PATH" > $BUILD_DIR/.profile.d/calibre.sh
+echo $PATH
+
+echo "-----> Calibre install done"
