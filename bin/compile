@@ -23,7 +23,8 @@ wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sh /dev/std
 
 echo "-----> Setting up path"
 
-echo "export PATH=\$HOME/calibre:\$PATH" > /etc/.profile.d/calibre.sh
+mkdir -p $BUILD_DIR/.profile.d
+echo "export PATH=\$HOME/calibre:\$PATH" > $BUILD_DIR/.profile.d/calibre.sh
 echo $PATH
 
 echo "-----> Calibre install done"
