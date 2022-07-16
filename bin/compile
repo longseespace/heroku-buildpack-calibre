@@ -19,7 +19,7 @@ mkdir -p "$BUILD_DIR/vendor"
 
 echo "-----> Installing Calibre"
 
-wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sh /dev/stdin install_dir="$BUILD_DIR" isolated=y version=5.44
+wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sh /dev/stdin install_dir="$BUILD_DIR" isolated=y version=5.44.0
 
 # libGL dependency required for image processing
 echo "-----> Installing dependencies"
