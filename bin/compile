@@ -28,7 +28,8 @@ for dep in \
   http://mirrors.kernel.org/ubuntu/pool/main/libg/libglvnd/libglvnd0_1.0.0-2ubuntu2_amd64.deb \
   http://mirrors.kernel.org/ubuntu/pool/main/libg/libglvnd/libglx0_1.0.0-2ubuntu2_amd64.deb \
   http://mirrors.kernel.org/ubuntu/pool/main/libx/libxcomposite/libxcomposite1_0.4.4-2_amd64.deb \
-  http://mirrors.kernel.org/ubuntu/pool/main/n/nss/libnss3_3.49.1-1ubuntu1.8_amd64.deb
+  http://mirrors.kernel.org/ubuntu/pool/main/n/nss/libnss3_3.49.1-1ubuntu1.8_amd64.deb \
+  http://mirrors.kernel.org/ubuntu/pool/main/n/nspr/libnspr4_4.18-1ubuntu1_amd64.deb
 do
   echo $dep
   curl -OLs $dep
@@ -37,10 +38,6 @@ do
   rm *.deb
 done
 mv ./usr/lib/x86_64-linux-gnu/* $BUILD_DIR/calibre/lib/
-
-wget https://github.com/pdf2htmlEX/pdf2htmlEX/releases/download/v0.18.8.rc1/pdf2htmlEX-0.18.8.rc1-master-20200630-Ubuntu-bionic-x86_64.deb
-sudo mv pdf2htmlEX-0.18.8.rc1-master-20200630-Ubuntu-bionic-x86_64.deb pdf2htmlEX.deb
-sudo apt install ./pdf2htmlEX.deb
 
 echo "-----> Setting up path"
 
