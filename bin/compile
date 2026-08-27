@@ -1,7 +1,7 @@
 #!/bin/sh
 
-# fail fast
-set -e
+# fail fast, including unset variables
+set -eu
 
 # parse and derive params
 BUILD_DIR=$1
@@ -24,15 +24,17 @@ sh $BUILDPACK_DIR/bin/linux-installer.sh install_dir="$BUILD_DIR" isolated=y ver
 # libGL dependency required for image processing
 echo "-----> Installing dependencies"
 for dep in \
-  http://mirrors.kernel.org/ubuntu/pool/main/libg/libglvnd/libgl1_1.0.0-2ubuntu2_amd64.deb \
-  http://mirrors.kernel.org/ubuntu/pool/main/libg/libglvnd/libglvnd0_1.0.0-2ubuntu2_amd64.deb \
-  http://mirrors.kernel.org/ubuntu/pool/main/libg/libglvnd/libglx0_1.0.0-2ubuntu2_amd64.deb \
-  http://mirrors.kernel.org/ubuntu/pool/main/libx/libxcomposite/libxcomposite1_0.4.4-2_amd64.deb \
-  http://mirrors.edge.kernel.org/ubuntu/pool/main/n/nss/libnss3_3.49.1-1ubuntu1_amd64.deb \
-  http://mirrors.kernel.org/ubuntu/pool/main/n/nspr/libnspr4_4.18-1ubuntu1_amd64.deb
+  https://archive.ubuntu.com/ubuntu/pool/main/libg/libglvnd/libgl1_1.0.0-2ubuntu2_amd64.deb \
+  https://archive.ubuntu.com/ubuntu/pool/main/libg/libglvnd/libglvnd0_1.0.0-2ubuntu2_amd64.deb \
+  https://archive.ubuntu.com/ubuntu/pool/main/libg/libglvnd/libglx0_1.0.0-2ubuntu2_amd64.deb \
+  https://archive.ubuntu.com/ubuntu/pool/main/libx/libxcomposite/libxcomposite1_0.4.4-2_amd64.deb \
+  https://archive.ubuntu.com/ubuntu/pool/main/n/nss/libnss3_3.49.1-1ubuntu1_amd64.deb \
+  https://archive.ubuntu.com/ubuntu/pool/main/n/nspr/libnspr4_4.18-1ubuntu1_amd64.deb
 do
-  echo $dep
-  curl -OLs $dep
+  echo "$dep"
+  curl --fail --location --silent --show-error \
+    --retry 5 --retry-delay 2 --retry-connrefused \
+    --remote-name "$dep"
   ar x *.deb
   tar xf data.tar.xz
   rm *.deb
